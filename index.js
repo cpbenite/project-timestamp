@@ -24,6 +24,24 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/:date", (req, res) => {
+  const { date } = req.params;
+  
+  if (!date) {
+    const time = Date.now()
+    return { 
+      error: "Invalid Date",
+      unix: Date.parse(time),
+      utc: time.getTime()
+    }
+  }
+
+  const time = new Date(Number(date) ? Number(date) : date)
+  return res.json({ 
+    unix: Date.parse(time),
+    utc: time.toUTCString()
+  })
+})
 
 
 // listen for requests :)
